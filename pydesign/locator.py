@@ -19,6 +19,42 @@
 #  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 #  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 #  SOFTWARE.
-from __future__ import absolute_import
-from .singleton import Singleton
-from .locator import Locator
+from threading import Lock
+
+
+class Locator:
+    """
+    Encapsulating the processes involved in obtaining a service with a strong abstraction layer.
+    Supported multi-thread safe.
+    ---------
+    @author:    Hieu Tr. Pham.
+    @created:   June 24th, 2020.
+    """
+
+    def __init__(self):
+        """
+        Class constructor.
+        """
+        # Storing all services.
+        self._container = dict()
+        # Lock for thread-safe.
+        self._lock = Lock()
+
+    def get(self, name: str) -> object:
+        """
+        Get service by name.
+        :param name:    name of service.
+        :return:        service object.
+        """
+        return self._container.get(name)
+
+    def set(self, name, service, overwrite=False):
+        """
+        Set service with specific name.
+        :param name:        name of service.
+        :param service:     service object.
+        :param overwrite:   overwrite existed or not.
+        """
+        with self._lock:
+            if (name in self._container and overwrite) or name not in self._container:
+                self._container[name] = service
