@@ -21,13 +21,17 @@
 #  SOFTWARE.
 from setuptools import setup, find_packages
 
+with open("README.md", "r") as fh:
+    long_description = fh.read()
 
 setup(
     name='pydesign',
     packages=find_packages(),
-    version='0.1',
+    version='0.1.1',
     license='MIT',
     description='Python implementations of common design patterns which can work as thread-safe',
+    long_description=long_description,
+    long_description_content_type='text/markdown',
     author='Hieu Tr. Pham',
     author_email='hieupt.ai@gmail.com',
     url='https://github.com/hieupth/pydesign',
