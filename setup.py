@@ -30,7 +30,7 @@ with open("README.md", "r") as fh:
 setup(
     name='pyarchitect',
     packages=find_packages(),
-    version='0.0.1',
+    version='0.0.2',
     license='MIT',
     description='Implementations of common data structures, design patterns and software architects',
     long_description=long_description,
