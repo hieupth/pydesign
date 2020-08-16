@@ -26,25 +26,46 @@ from pyarchitect.generic import Object
 
 
 class Node(Object):
+    """
+    This class is an implementation of node in general tree data structure.
+    ---------
+    @author:    Hieu Pham.
+    @created:   16th August, 2020.
+    """
 
     @property
     def name(self):
+        """
+        Get node name.
+        """
         return self._name
 
     @property
     def parent(self):
+        """
+        Get parent node.
+        """
         return self._parent
 
     @property
     def is_root(self):
+        """
+        Check node is root of tree or not?
+        """
         return self._parent is None
 
     @property
     def is_top(self):
+        """
+        Check node is top of tree or not?
+        """
         return len(self._leaves) == 0
 
     @property
     def root(self):
+        """
+        Get root of current tree of node.
+        """
         return self._root
 
     def __init__(self, name=None, parent=None):
