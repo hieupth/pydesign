@@ -21,4 +21,16 @@
 #  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 #  SOFTWARE.
 # --------------------------------------------------------------------------------
-from __future__ import absolute_import
+import logging
+
+
+# --------------------------------------------------------------------------------
+# When this library is imported, it configures logging system formats
+# automatically to generate easier readable logs.
+# --------------------------------------------------------------------------------
+# Assign logging formats.
+LOG_FORMAT = '%(levelname)s (%(asctime)s) pid=%(process)d: %(message)s'
+LOG_DATE_FORMAT = 'UTC%Z %d.%m.%y %H:%M:%S'
+# Setting up logging system.
+logging.getLogger().setLevel(logging.INFO)
+logging.basicConfig(format=LOG_FORMAT, datefmt=LOG_DATE_FORMAT)
