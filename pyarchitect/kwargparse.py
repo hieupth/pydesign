@@ -21,7 +21,7 @@
 #  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 #  SOFTWARE.
 # --------------------------------------------------------------------------------
-from pyarchitect.datastructs.tree import Node
+from pyarchitect.datastructs.gentree import Node
 
 
 class KwargParse(Node):
@@ -30,6 +30,7 @@ class KwargParse(Node):
     ---------
     @author:    Hieu Pham.
     @created:   16th August, 2020.
+    @modified:  18th August, 2020.
     """
 
     def __init__(self, name=None, key=None, default=None, ignore=False):
@@ -64,13 +65,14 @@ class KwargParse(Node):
         # Assign keyword.
         key = self.key if self.key else self.name
         # Parse arguments.
-        if not self.ignore:
-            args.update({key: kwargs.get(self.name, self.default)})
-        elif self.ignore and self.is_top and self.name in kwargs:
-            args.update({key: kwargs.get(self.name, self.default)})
+        if len(self.leaves) > 0:
+            kwargs = kwargs.get(self.name)
+            kwargs = kwargs if isinstance(kwargs, dict) else dict()
+            for leaf in self.leaves:
+                args.update(leaf.parse(**kwargs))
+            args = dict({key: args})
         else:
-            for node in self._leaves.values():
-                args.update(node.parse(**kwargs))
+            args.update({key: kwargs.get(self.name, self.default)})
         # Return parsed arguments.
         return args
 
@@ -83,6 +85,6 @@ class KwargParse(Node):
             _dict.update(key=self.key)
         if self.default:
             _dict.update(default=self.default)
-        for leaf in self._leaves.values():
+        for leaf in self.leaves:
             _dict.update({leaf.name: leaf.to_dict()})
         return _dict
