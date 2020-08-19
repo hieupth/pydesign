@@ -64,7 +64,8 @@ class KwargParse(Node):
         key = self.key if self.key else self.name
         # Parse arguments.
         if len(self.leaves) > 0:
-            kwargs = kwargs.get(self.name)
+            if not self.ignore:
+                kwargs = kwargs.get(self.name)
             kwargs = kwargs if isinstance(kwargs, dict) else dict()
             for leaf in self.leaves:
                 args.update(leaf.parse(**kwargs))
