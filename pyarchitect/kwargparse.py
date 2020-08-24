@@ -63,16 +63,27 @@ class KwargParse(Node):
         # Assign keyword.
         key = self.key if self.key else self.name
         # Parse arguments.
-        if len(self.leaves) > 0:
-            if not self.ignore:
-                kwargs = kwargs.get(self.name)
-            kwargs = kwargs if isinstance(kwargs, dict) else dict()
-            for leaf in self.leaves:
-                args.update(leaf.parse(**kwargs))
-            args = args if self.ignore else dict({key: args})
+        if self.ignore:
+            args.update({key: self.parse_leaves(**kwargs)})
         else:
-            args.update({key: kwargs.get(self.name, self.default)})
+            key = self.key if self.key else self.name
+            if not self.is_top:
+                args.update({key: self.parse_leaves(**kwargs.get(self.name, {}))})
+            else:
+                args.update({key: kwargs.get(self.name, self.default)})
         # Return parsed arguments.
+        return args
+
+    def parse_leaves(self, **kwargs):
+        """
+        Parse arguments of leaf nodes from keyword arguments.
+        :param kwargs:  keyword arguments to be parsed.
+        """
+        args = dict()
+        # Parse arguments.
+        for item in self.leaves:
+            args.update(item.parse(**kwargs))
+        # Return arguments.
         return args
 
     def to_dict(self):
