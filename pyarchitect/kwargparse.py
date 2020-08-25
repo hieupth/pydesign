@@ -64,7 +64,7 @@ class KwargParse(Node):
         key = self.key if self.key else self.name
         # Parse arguments.
         if self.ignore:
-            args.update({key: self.parse_leaves(**kwargs)})
+            args.update(**self.parse_leaves(**kwargs))
         else:
             key = self.key if self.key else self.name
             if not self.is_top:
