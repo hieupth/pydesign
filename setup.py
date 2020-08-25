@@ -28,8 +28,8 @@ with open("README.md", "r") as fh:
 setup(
     name='pyarchitect',
     packages=find_packages(),
-    version='0.0.5',
-    license='MIT',
+    version='0.0.6.3.1',
+    license='GPLv3',
     description='Implementations of common data structures, design patterns and useful utilities',
     long_description=long_description,
     long_description_content_type='text/markdown',
